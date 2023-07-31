@@ -1,0 +1,404 @@
+import java.util.*;
+import  java.sql.*;
+public class Hotel_Billing_System {
+   public static int total = 0;
+   public static int total_s = 0;
+   public static int Fchoice = 0;
+   // HARDCODED MENU
+   public  String menu_chinease[] = {"Rice       ", "Fried Rice  ", "Hakka noodles  ", "Shezwan  ", "Choumin  ", "soup  "};
+   public String menu_continental[] = {"Prawn pie    ", " Toffee pudding   ", "Lamb patties   ", " Roast salad   ", "spring rolls    ", "Cross buns    "};
+   public String menu_Indian_veg_special[] = {"aaloo gobi", " Paneer tikka", " malai kofta  ", " raitaa", " Naan    ", "daal fry   "};
+   public String menu_nonveg[] = {"Chicken Biryani  ", "Mutton Biryani  ", " Tandoori chicken  ", "Tandoori kebab  ", " Fish Fry  ", " Surmai Tikka   "};
+
+   public int price_chinese[] = {40, 60, 55, 85, 95, 90};
+   public int price_continental[] = {120, 135, 70, 100, 90, 160};
+   public int price_Indian_veg_special[] = {80, 120, 140, 90, 120, 85};
+   public int price_nonveg[] = {200, 400, 250, 300, 260, 450};
+
+   // ORDERED ITEMS
+   public int order_chinese[] = new int[10];
+   public int order_continental[] = new int[10];
+   public int order_Indian_veg[] = new int[10];
+   public int order_nonveg[] = new int[10];
+
+   // STAYING MENU
+   public static int choice = 0;
+   public String[] room = {"small sized non AC room", "small sized AC room", "medium sized non AC room", "medium sized AC room", "full sized non AC room", "full sized AC room"};
+   public String[] room_order = new String[1];
+   public int price_room[] = {2000, 3000, 3500, 4500, 5000, 6000};
+   public static String name;
+   public static double contact;
+   public static int diningbill;
+   public static int stayingbill;
+
+   public static int staying_bill(String name, String address, String room_order[], int price__room, int days) {
+       System.out.println("__________________________________________________________________________________________");
+       System.out.println("\t\t\t            Hotel Varun                 \t\t\t");
+       System.out.println("\t\t\t            Contact Number : 1234567890             \t\t\t");
+       System.out.println(String.format("\t\t\t            Name : %s              \t\t\t", name));
+       System.out.println(String.format("\t\t\t            Address : %s              \t\t\t", address));
+       System.out.println("__________________________________________________________________________________________");
+
+       for (int i = 0; i < room_order.length; i++) {
+           System.out.println(String.format("%s   \t\t\t   %d   \t\t\t   %d X %d   \t\t\t   %d   ",room_order[i], price__room, price__room, days, price__room * days));
+       }
+
+       total_s = price__room * days;
+       System.out.println("__________________________________________________________________________________________");
+       System.out.println("Your total staying bill is : "+ total_s);
+       System.out.println("__________________________________________________________________________________________");
+       System.out.println("Thank you, visit again !!");
+       return total_s;
+
+   }
+
+   public static int dining_bill(String name, String address, int[] order_chinese, int[] order_continental, int[] order_Indian_veg, int[] order_nonveg, String[] menu_chinease, String[] menu_continental, String[] menu_Indian_veg_special, String[] menu_nonveg, int[] price_chinese, int[] price_continental, int[] price_Indian_veg_special, int[] price_nonveg, int Fchoice) {
+       int total1 = 0;
+       int total2 = 0;
+       int total3 = 0;
+       int total4 = 0;
+       int total = 0;
+       System.out.println("__________________________________________________________________________________________");
+       System.out.println("\t\t\t            Hotel Varun                 \t\t\t");
+       System.out.println("\t\t\t            Contact Number : 1234567890             \t\t\t");
+       System.out.println(String.format("\t\t\t            Name : %s              \t\t\t", name));
+       System.out.println(String.format("\t\t\t            Address : %s              \t\t\t", address));
+       System.out.println("__________________________________________________________________________________________");
+
+       for (int i = 0; i < 6; i++) {
+           if (order_chinese[i] != 0) {
+               total1 = total1 + order_chinese[i] * price_chinese[i];
+           }
+       }
+
+       for (int i = 0; i < 6; i++) {
+           if (order_continental[i] != 0) {
+               total2 = total2 + order_continental[i] * price_continental[i];
+           }
+       }
+       for (int i = 0; i < 6; i++) {
+           if (order_Indian_veg[i] != 0) {
+               total3 = total3 + order_Indian_veg[i] * price_Indian_veg_special[i];
+           }
+       }
+       for (int i = 0; i < 6; i++) {
+           if (order_nonveg[i] != 0) {
+               total4 = total4 + order_nonveg[i] * price_nonveg[i];
+           }
+       }
+       total = total1 + total2 + total3 + total4;
+
+       System.out.println(String.format("\t\t\t\t\t items \t\t\t\t\t\t\t\t\t\t total"));
+       for (int i = 0; i < 6; i++) {
+           if (order_chinese[i] != 0) {
+               System.out.println(String.format("\t\t\t\t\t %s \t\t\t\t\t(%d X %d)\t\t\t %d", menu_chinease[i], order_chinese[i], price_chinese[i], order_chinese[i] * price_chinese[i]));
+           }
+       }
+
+       for (int i = 0; i < 6; i++) {
+           if (order_continental[i] != 0) {
+               System.out.println(String.format("\t\t\t\t\t %s \t\t\t\t\t(%d X %d)\t\t\t %d", menu_continental[i], order_continental[i], price_continental[i], order_continental[i] * price_continental[i]));
+           }
+       }
+
+       for (int i = 0; i < 6; i++) {
+           if (order_Indian_veg[i] != 0) {
+               System.out.println(String.format("\t\t\t\t\t %s \t\t\t\t\t(%d X %d)\t\t\t %d", menu_Indian_veg_special[i], order_Indian_veg[i], price_Indian_veg_special[i], order_Indian_veg[i] * price_Indian_veg_special[i]));
+           }
+       }
+
+       for (int i = 0; i < 6; i++) {
+           if (order_nonveg[i] != 0) {
+               System.out.println(String.format("\t\t\t\t\t %s \t\t\t\t\t(%d X %d)\t\t\t %d", menu_nonveg[i], order_nonveg[i], price_nonveg[i], order_nonveg[i] * price_nonveg[i]));
+           }
+       }
+
+       System.out.println("__________________________________________________________________________________________");
+       System.out.println("Your total dining bill is : "+ total);
+       System.out.println("__________________________________________________________________________________________");
+       System.out.println("thank you !! visit again");
+       return total;
+   }
+
+   public static void main(String[] args) throws SQLException, ClassNotFoundException {
+       Scanner sc = new Scanner(System.in);
+       Hotel_Billing_System hotel = new Hotel_Billing_System();
+
+       System.out.println("Welcome to hotel Varun sir");
+       System.out.println("Are you here for staying or for dining? please choose correct option");
+       System.out.println("1-->Staying");
+       System.out.println("2-->Dining");
+       System.out.println("3-->Staying and Dining Both");
+       choice = sc.nextInt();
+
+       if (choice == 1) {
+           hotel.take_staying_order();
+           insert_into_DB(name,contact,diningbill,stayingbill);
+       }
+
+       if (choice == 2) {
+           hotel.take_food_order();
+           insert_into_DB(name,contact,diningbill,stayingbill);
+
+       }
+       if (choice==3){
+           hotel.take_staying_order();
+           hotel.take_food_order();
+           insert_into_DB(name,contact,diningbill,stayingbill);
+           int total_bill = stayingbill + diningbill;
+           System.out.println();
+           System.out.println("total bill is : "+ total_bill );
+
+       }
+   }
+       public void take_staying_order(){
+       Scanner sc = new Scanner(System.in);
+
+           System.out.println("please enter your name");
+           name = sc.next();
+           System.out.println("please enter your address");
+           String address = sc.next();
+           System.out.println("contact");
+           contact = sc.nextDouble();
+           System.out.println("which type of room you want : ");
+           for (int i = 0; i < room.length; i++) {
+               System.out.println(String.format("\t\t  %d  \t\t  %s  \t\t  %d  \t\t", i + 1, room[i], price_room[i]));
+           }
+           int chRoom = sc.nextInt();
+           room_order[0] = room[chRoom];
+           System.out.println("For how many days you are planning to stay : ");
+           int days = sc.nextInt();
+           int price__room = price_room[chRoom - 1];
+           stayingbill= staying_bill(name, address, room_order, price__room, days);
+
+       }
+
+       public void take_food_order() {
+           Scanner sc = new Scanner(System.in);
+
+           System.out.println("please enter your name");
+           String name = sc.next();
+           System.out.println("please enter your address");
+           String address = sc.next();
+           System.out.println("contact");
+           double contact = sc.nextDouble();
+           System.out.println("would you like to give order, sir? (press y/Y for yes, else press n/N");
+           char chh = sc.next().charAt(0);
+           System.out.println(chh);
+           if (chh == 'Y' || chh == 'y') {
+
+               do {
+                   System.out.println("these are the food categories available here: pls choose the index of category you are interested in : ");
+                   System.out.println("1--> chinese");
+                   System.out.println("2--> continental");
+                   System.out.println("3--> indian veg special");
+                   System.out.println("4--> non veg");
+
+                   System.out.println("which type of food you want to order : ");
+                   System.out.println("enter index of dish or to quit, enter 9");
+                   Fchoice = sc.nextInt();
+
+                   int chinese_item;
+                   int continental_item;
+                   int indianveg_item;
+                   int nonveg_item;
+                   if (Fchoice == 1) {
+                       do {
+                           System.out.println("chinese cuisine: ");
+                           for (int i = 0; i < 6; i++) {
+                               System.out.println(String.format("%d , %s \t\t\t %d (per plate)", i + 1, menu_chinease[i], price_chinese[i]));
+                           }
+                           System.out.println("cChoose index of dish or press 9 to exit : ");
+                           chinese_item = sc.nextInt();
+                           switch (chinese_item) {
+                               case 1:
+                                   System.out.println("1. Rice");
+                                   System.out.println("\n Enter quantity of rice= ");
+                                   order_chinese[0] = sc.nextInt();
+                                   break;
+                               case 2:
+                                   System.out.println("\n 2 Fried Rice");
+                                   System.out.println("\n Enter quantity of Fried Rice= ");
+                                   order_chinese[1] = sc.nextInt();
+                                   break;
+                               case 3:
+                                   System.out.println("\n 3 Hakka Noodles");
+                                   System.out.println("\n Enter quantity of Hakka Noodles = ");
+                                   order_chinese[2] = sc.nextInt();
+                                   break;
+                               case 4:
+                                   System.out.println("\n 4 Shezwan");
+                                   System.out.println("\n Enter quantity of Shezwan = ");
+                                   int Shezwan = sc.nextInt();
+                                   order_chinese[3] = Shezwan;
+                                   break;
+                               case 5:
+                                   System.out.println("\n 5 Choumin");
+                                   System.out.println("\n Enter quantity of Choumin = ");
+                                   int Choumin = sc.nextInt();
+                                   order_chinese[4] = sc.nextInt();
+                                   break;
+                               case 6:
+                                   System.out.println("\n 6 soup");
+                                   System.out.println("\n Enter quantity of soup = ");
+                                   int soup = sc.nextInt();
+                                   order_chinese[5] = sc.nextInt();
+                                   break;
+                           }
+
+                       } while (chinese_item < 6);
+                   }
+
+                   if (Fchoice == 2) {
+                       do {
+                           System.out.println("continental cuisine: ");
+                           for (int i = 0; i < 6; i++) {
+                               System.out.println(String.format("%d , %s \t\t\t %d (per plate)", i + 1, menu_continental[i], price_continental[i]));
+                           }
+                           System.out.println("Choose index of dish or press 9 to exit : ");
+                           continental_item = sc.nextInt();
+                           switch (continental_item) {
+                               case 1:
+                                   System.out.println("\n 1. Prawn pie  ");
+                                   System.out.println("\n Enter quantity of Prawn pie= ");
+                                   order_continental[0] = sc.nextInt();
+                                   break;
+                               case 2:
+                                   System.out.println("\n 2 Toffee pudding");
+                                   System.out.println("\n Enter quantity of Toffee pudding= ");
+                                   order_continental[1] = sc.nextInt();
+                                   break;
+                               case 3:
+                                   System.out.println("\n 3 lamb patties");
+                                   System.out.println("\n Enter quantity of lamb patties = ");
+                                   order_continental[2] = sc.nextInt();
+                                   break;
+                               case 4:
+                                   System.out.println("\n 4 Roast salad");
+                                   System.out.println("\n Enter quantity of Roast salad = ");
+                                   order_continental[3] = sc.nextInt();
+                                   break;
+                               case 5:
+                                   System.out.println("\n 5 Spring rolls");
+                                   System.out.println("\n Enter quantity of Spring rolls = ");
+                                   order_continental[4] = sc.nextInt();
+                                   break;
+                               case 6:
+                                   System.out.println("\n 6 Cross buns");
+                                   System.out.println("\n Enter quantity of Cross buns = ");
+                                   order_continental[5] = sc.nextInt();
+                                   break;
+                           }
+
+                       } while (continental_item < 6);
+                   }
+                   if (Fchoice == 3) {
+                       do {
+                           System.out.println("indian veg cuisine: ");
+                           for (int i = 0; i < 6; i++) {
+                               System.out.println(String.format("%d , %s \t\t\t %d (per plate)", i + 1, menu_Indian_veg_special[i], price_Indian_veg_special[i]));
+                           }
+                           System.out.println("Choose index of dish or press 9 to exit : ");
+                           indianveg_item = sc.nextInt();
+                           switch (indianveg_item) {
+                               case 1:
+                                   System.out.println("\n 1. aalo gobi ");
+                                   System.out.println("\n Enter quantity of aalo gobi= ");
+                                   order_Indian_veg[0] = sc.nextInt();
+                                   break;
+                               case 2:
+                                   System.out.println("\n 2 Paneer tikka");
+                                   System.out.println("\n Enter quantity of paneer tikka= ");
+                                   order_Indian_veg[1] = sc.nextInt();
+                                   break;
+                               case 3:
+                                   System.out.println("\n 3 malai kofta");
+                                   System.out.println("\n Enter quantity of malai kofta = ");
+
+                                   order_Indian_veg[2] = sc.nextInt();
+                                   break;
+                               case 4:
+                                   System.out.println("\n 4 Raaita");
+                                   System.out.println("\n Enter quantity of Raaita = ");
+                                   order_Indian_veg[3] = sc.nextInt();
+                                   break;
+                               case 5:
+                                   System.out.println("\n 5 Naan");
+                                   System.out.println("\n Enter quantity of Naan = ");
+                                   order_Indian_veg[4] = sc.nextInt();
+                                   break;
+                               case 6:
+                                   System.out.println("\n 6 Daal fry");
+                                   System.out.println("\n Enter quantity of daal fry = ");
+                                   order_Indian_veg[5] = sc.nextInt();
+                                   break;
+                           }
+
+                       } while (indianveg_item < 6);
+                   }
+                   if (Fchoice == 4) {
+                       do {
+                           System.out.println("non veg cuisine: ");
+                           for (int i = 0; i < 6; i++) {
+                               System.out.println(String.format("%d , %s \t\t\t %d (per plate)", i + 1, menu_nonveg[i], price_nonveg[i]));
+                           }
+                           System.out.println("Choose index of dish or press 9 to exit : ");
+                           nonveg_item = sc.nextInt();
+                           switch (nonveg_item) {
+                               case 1:
+                                   System.out.println("\n 1. Chicken biryani  ");
+                                   System.out.println("\n Enter quantity of chicken biryani= ");
+                                   order_nonveg[0] = sc.nextInt();
+                                   break;
+                               case 2:
+                                   System.out.println("\n 2 Mutton biryani");
+                                   System.out.println("\n Enter quantity of Mutton biryani= ");
+                                   order_nonveg[1] = sc.nextInt();
+                                   break;
+                               case 3:
+                                   System.out.println("\n 3 Tandoori chicken");
+                                   System.out.println("\n Enter quantity of tandoori chicken = ");
+                                   order_nonveg[2] = sc.nextInt();
+                                   break;
+                               case 4:
+                                   System.out.println("\n 4 tandoori kebab");
+                                   System.out.println("\n Enter quantity of tandoori kebab = ");
+                                   order_nonveg[3] = sc.nextInt();
+                                   break;
+                               case 5:
+                                   System.out.println("\n 5 fish fry");
+                                   System.out.println("\n Enter quantity of fish fry = ");
+                                   order_nonveg[4] = sc.nextInt();
+                                   break;
+                               case 6:
+                                   System.out.println("\n 6 Surmai Tikka");
+                                   System.out.println("\n Enter quantity of surmai tikka = ");
+                                   order_nonveg[5] = sc.nextInt();
+                                   break;
+                           }
+
+                       } while (nonveg_item < 6);
+                   }
+               } while (Fchoice < 5);
+               diningbill=dining_bill(name, address, order_chinese, order_continental, order_Indian_veg, order_nonveg, menu_chinease, menu_continental, menu_Indian_veg_special, menu_nonveg, price_chinese, price_continental, price_Indian_veg_special, price_nonveg, Fchoice);
+           }
+
+           if (chh == 'n' || chh == 'N') {
+               System.out.println("Thank you sir !!");
+           }
+       }
+
+       public static void insert_into_DB(String name, double contact, int diningbill, int stayingbill) throws SQLException, ClassNotFoundException{
+
+           String url = "jdbc:mysql://localhost:3306/hotelbilling";
+           String user = "root";
+           String pwd = "Prem12vkar@";
+
+           Class.forName("com.mysql.cj.jdbc.Driver");
+           Connection con = DriverManager.getConnection(url, user, pwd);
+           Statement st = con.createStatement();
+           String sqlInsert = "insert into `hotelbilling`.`hotel billing` values('" + 1 + "','" + name + "','" + diningbill + "','" + stayingbill + "','" + contact + "')";
+           st.executeUpdate(sqlInsert);
+       }
+
+   }
